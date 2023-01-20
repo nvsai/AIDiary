@@ -8,6 +8,7 @@ Team Name-AIWizards
 Project Info-
 This project is for kids.It uses NLP to Generate stories,Analyze mood and topics of a diary entry and generate python code from English instructions.
 
+![Screenshot from 2023-01-21 00-35-29](https://user-images.githubusercontent.com/65706186/213784714-fc58f0be-e838-4e6f-b3f7-7270f69f3bd0.png)
 Demo video - https://vimeo.com/791264574
 
 AI21 studio API's are used for model training and usage.
