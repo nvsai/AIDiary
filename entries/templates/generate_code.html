@@ -1,0 +1,80 @@
+{% extends "entries/base.html" %}
+{% block content %}
+<style type="text/css">
+	.newcon{
+    border-radius: 15px;
+    font-size: 1em;
+    margin: 0;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    vertical-align: top;
+    color: white;
+    background-color: greenyellow;
+}
+h4{
+	color: white;
+}
+</style>
+<br>
+<h4>Explain code in english and click generate code.</h4>
+<article>
+	<form>
+<textarea id="englishcode"></textarea>
+</form>
+<br>
+<h4>code</h4>
+ <div class="container">
+        <p id="myentry"></p>
+    </div>
+</article>
+<button onclick="myFun()">Generate Code</button>
+<script type="text/javascript">
+	function myFun(){
+
+        var p=fetch("https://api.ai21.com/studio/v1/j1-large/complete", {
+  headers: {
+    "Authorization": "Bearer ",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+      "prompt": "Q: Write a Python program that calculates the sum of all positive integers smaller than 8.\nA: sum(x for x in range(8))\nQ: "+document.getElementById("englishcode").value+"\nA: ",
+      "numResults": 1,
+      "maxTokens": 40,
+      "temperature": 0,
+      "topKReturn": 0,
+      "topP":1,
+      "countPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "frequencyPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "presencePenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "stopSequences":["Q:"]
+    }),
+  method: "POST"
+}).then((response) => response.json().then((data) => {
+    var s=document.getElementById("myentry")
+    s.innerHTML=data.completions[0].data.text
+console.log(data.completions[0].data.text);
+}));
+}
+</script>
+{% endblock %}

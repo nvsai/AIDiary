@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/diary.css' %}">
+    <title>My Diary</title>
+    <style>
+body {
+  background-image: url("{% static 'glaaxy-theme1.jpg' %}");
+  background-repeat: no-repeat;
+    background-size: cover;
+}
+</style
+</head>
+
+<body>
+	<center>
+    <h1><a href="/">AI Diary</a></h1>
+    <button onclick="window.location.href='/'">My Dairy</button>
+    <button onclick="window.location.href='/stories'">Stories</button>
+    <button onclick="window.location.href='/code'">Python Code</button>
+    {% if messages %}
+	    <ul class="messages">
+	    {% for message in messages %}
+	        <li class="message">
+	            {{ message }}
+	        </li>
+	    {% endfor %}
+	    </ul>
+	{% endif %}
+
+    {% block content %}{% endblock %}
+
+    <hr>
+	<a class="button" href="{% url 'admin:logout' %}">Logout</a>
+</center>
+</body>
+
+</html>

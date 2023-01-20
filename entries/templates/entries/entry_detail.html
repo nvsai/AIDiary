@@ -1,0 +1,141 @@
+{% extends "entries/base.html" %}
+
+{% block content %}
+<style type="text/css">
+	.newcon{
+    border-radius: 15px;
+    font-size: 1em;
+    margin: 0;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    vertical-align: top;
+    color: white;
+    background-color: greenyellow;
+}
+</style>
+    <article>
+        <h2>{{ entry.date_created|date:'Y-m-d H:i' }}</h2>
+        <h3>{{ entry.title }}</h3>
+        <br>
+        <br>
+        <div class="container">
+        <p id="myentry">{{ entry.content }}</p>
+    </div>
+        <br>
+    </article>
+    
+    	<div class="newcon"><b><-Analysis-></b>
+    		<br>
+    		<b>Topics:</b>
+    		<p id="topics"> </p>
+    		<b>Sentiment Analysis:</b>
+    		<p id="sentiment"> </p>
+    	</div>
+	<p>
+	    <a class="button" href="{% url 'entry-update' entry.id %}">✍️ Edit</a>
+	    <a class="button" href="{% url 'entry-delete' entry.id %}">⛔ Delete</a>
+	</p>
+	<script type="text/javascript">
+
+		function superfun()
+		{
+			var p=fetch("https://api.ai21.com/studio/v1/j1-grande/complete", {
+  headers: {
+    "Authorization": "Bearer ",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+      "prompt": "Classify the topic of the following paragraph: Carlyle Looks Toward Commercial Aerospace (Reuters) Reuters - Private investment firm Carlyle Group, which has a reputation for making well-timed and occasionally controversial plays in the defense industry, has quietly placed its bets on another part of the market.\nLabel: Business.\n\n##\n\nClassify the topic of the following paragraph: Some People Not Eligible to Get in on Google IPO Google has billed its IPO as a way for everyday people to get in on the process, denying Wall Street the usual stranglehold it's had on IPOs. Public bidding, a minimum of just five shares, an open process with 28 underwriters - all this pointed to a new level of public participation. But this isn't the case.\nLabel: Technology.\n\n##\n\nClassify the topic of the following paragraph: Indians Mount Charge The Cleveland Indians pulled within one game of the AL Central lead by beating the Minnesota Twins, 7-1, Saturday night with home runs by Travis Hafner and Victor Martinez.\nLabel: Sports.\n\n##\n\nClassify the topic of the following paragraph:"+document.getElementById("myentry").innerHTML+" \nLabel:",
+      "numResults": 1,
+      "maxTokens": 10,
+      "temperature": 0,
+      "topKReturn": 0,
+      "topP":1,
+      "countPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "frequencyPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "presencePenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "stopSequences":["##"]
+    }),
+  method: "POST"
+}).then((response) => response.json().then((data) => {
+    var s=document.getElementById("topics")
+    s.innerHTML=data.completions[0].data.text
+console.log(data.completions[0].data.text);
+}));
+		}
+
+function sentimental()
+{
+	var p=fetch("https://api.ai21.com/studio/v1/experimental/j1-grande-instruct/complete", {
+  headers: {
+    "Authorization": "Bearer ",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+      "prompt": "Label the following sentence by sentiment:"+document.getElementById("myentry").innerHTML+"\n\nSentiments:\n",
+      "numResults": 1,
+      "maxTokens": 114,
+      "temperature": 0.33,
+      "topKReturn": 0,
+      "topP":1,
+      "countPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "frequencyPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "presencePenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "stopSequences":["##"]
+    }),
+  method: "POST"
+}).then((response) => response.json().then((data) => {
+    var s=document.getElementById("sentiment")
+    s.innerHTML=data.completions[0].data.text
+console.log(data.completions[0].data.text);
+}));
+}
+		window.onload = function() {
+  setTimeout(superfun,500)
+  sentimental();
+};
+
+	</script>
+{% endblock %}
