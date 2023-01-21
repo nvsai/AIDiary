@@ -8,6 +8,9 @@ https://nvsai2000030558.pythonanywhere.com/info
 Project Info-
 This project is for kids.It uses NLP to Generate stories,Analyze mood and topics of a diary entry and generate python code from English instructions.
 
+Further implementation of idea:
+This project idea can be used to analyze each sentence of the diary antry for topics,mood then know which topics makes the user happy and this data can be used to match this user with other user there by enabling next level networking ,Also the data can be used for mental analysis of the user.
+
 ![Screenshot from 2023-01-21 00-35-29](https://user-images.githubusercontent.com/65706186/213784714-fc58f0be-e838-4e6f-b3f7-7270f69f3bd0.png)
 Demo video - https://vimeo.com/791264574
 Demo url - https://nvsai2000030558.pythonanywhere.com/info
