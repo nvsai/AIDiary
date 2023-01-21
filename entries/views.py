@@ -90,3 +90,7 @@ class StoryDeleteView(LockedView, SuccessMessageMixin, DeleteView):
 def generatecode(request):
     template = loader.get_template('generate_code.html')
     return HttpResponse(template.render())
+    
+def myhome(request):
+    template = loader.get_template('myhome.html')
+    return HttpResponse(template.render())
