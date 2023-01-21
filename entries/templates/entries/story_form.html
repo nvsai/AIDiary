@@ -1,5 +1,25 @@
 {% extends "entries/base.html" %}
 {% block content %}
+<style type="text/css">
+    .maski{
+        height: auto;
+        width: 1000px;
+        border-radius: 50px;
+        opacity: 1;
+}
+.myhe{
+    opacity: 1;
+    color: black;
+    visibility: hidden;
+  position: absolute;
+  top: 50%;
+  width: 50%;
+  text-align: center;
+  font-size: 18px;
+}
+</style>
+<div id="mymaski" class="maski">
+    <center><h4 id="myhe" class="myhe" >Processing</h4></center>
     <form method="post">{% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Save">
@@ -10,12 +30,17 @@
         	<button>Cancel</button>
         </a>
     {% else %}
+    
+</div>
     <script type="text/javascript">
     function myFun(){
-
+        document.getElementById('mymaski').style.cssText="background-color: white; opacity:0.5;";
+        document.getElementById('myhe').style.cssText="visibility:visible;";
         var p=fetch("https://api.ai21.com/studio/v1/j1-jumbo/complete", {
+            mode:'cors',
   headers: {
     "Authorization": "Bearer ",
+    'Access-Control-Allow-Origin':'*',
     "Content-Type": "application/json"
   },
   body: JSON.stringify({
@@ -53,6 +78,8 @@
     }),
   method: "POST"
 }).then((response) => response.json().then((data) => {
+    document.getElementById('mymaski').style.cssText="background-color: None; opacity:1;";
+    document.getElementById('myhe').style.cssText="visibility:hidden;";
     var s=document.getElementById("id_content")
     s.value=data.completions[0].data.text
 console.log(data.completions[0].data.text);
